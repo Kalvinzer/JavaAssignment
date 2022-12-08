@@ -37,12 +37,10 @@ public class NumberInterpretationServiceImpl implements NumberInterpretationServ
         if (intNumber > 10) {
           tenthRemaining = intNumber % 10;
           if (tenthRemaining == 0 && intNextNumber < 10) {
-            replaceTwoNumbersWithSum(
-                position, list, resultList, position, intNumber, intNextNumber);
+            replaceTwoNumbersWithSum(position, list, resultList, intNumber, intNextNumber);
           }
           if (tenthRemaining != 0) {
-            replaceNumberWithTwoParts(
-                position, list, resultList, position, intNumber, tenthRemaining);
+            replaceNumberWithTwoParts(position, list, resultList, intNumber, tenthRemaining);
           }
         }
       } else {
@@ -50,8 +48,7 @@ public class NumberInterpretationServiceImpl implements NumberInterpretationServ
         hundredthRemaining = intNumber % 100;
         if (hundredthRemaining == 0) {
           if (intNextNumber < 100) {
-            replaceTwoNumbersWithSum(
-                position, list, resultList, position, intNumber, intNextNumber);
+            replaceTwoNumbersWithSum(position, list, resultList, intNumber, intNextNumber);
           }
         } else {
           if (hundredthRemaining > 10) {
@@ -64,8 +61,7 @@ public class NumberInterpretationServiceImpl implements NumberInterpretationServ
             resultList.add(tempList.stream().map(String::valueOf).collect(Collectors.joining()));
             recurs(position + 1, tempList, resultList);
           }
-          replaceNumberWithTwoParts(
-              position, list, resultList, position, intNumber, hundredthRemaining);
+          replaceNumberWithTwoParts(position, list, resultList, intNumber, hundredthRemaining);
         }
       }
     }
@@ -75,14 +71,13 @@ public class NumberInterpretationServiceImpl implements NumberInterpretationServ
       int position,
       List<String> list,
       ArrayList<String> resultList,
-      int i,
       int intNumber,
       int hundredthRemaining) {
     List<String> tempList = new ArrayList<>(list);
     resultList.add(tempList.stream().map(String::valueOf).collect(Collectors.joining()));
-    tempList.remove(i);
-    tempList.add(i, String.valueOf(intNumber - hundredthRemaining));
-    tempList.add(i + 1, String.valueOf(hundredthRemaining));
+    tempList.remove(position);
+    tempList.add(position, String.valueOf(intNumber - hundredthRemaining));
+    tempList.add(position + 1, String.valueOf(hundredthRemaining));
     resultList.add(tempList.stream().map(String::valueOf).collect(Collectors.joining()));
     recurs(position + 1, tempList, resultList);
   }
@@ -91,14 +86,13 @@ public class NumberInterpretationServiceImpl implements NumberInterpretationServ
       int position,
       List<String> list,
       ArrayList<String> resultList,
-      int i,
       int intNumber,
       int intNextNumber) {
     List<String> tempList = new ArrayList<>(list);
     resultList.add(tempList.stream().map(String::valueOf).collect(Collectors.joining()));
-    tempList.remove(i + 1);
-    tempList.remove(i);
-    tempList.add(i, String.valueOf(intNumber + intNextNumber));
+    tempList.remove(position + 1);
+    tempList.remove(position);
+    tempList.add(position, String.valueOf(intNumber + intNextNumber));
     resultList.add(tempList.stream().map(String::valueOf).collect(Collectors.joining()));
     recurs(position + 1, tempList, resultList);
   }
